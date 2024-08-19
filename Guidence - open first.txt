@@ -42,3 +42,5 @@ This is guide to running this project.
 8. If wanted to input other video, just click select video button then process the video
 
 Thanks for reading!
+
+Note : This is on developing mode, not on build version. Cause utilize Flask API need the server online, which build version (offline in this case) cant utilize it.
