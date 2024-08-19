@@ -5,9 +5,6 @@ import numpy as np
 import tensorflow as tf
 from typing import List
 from tensorflow.python.client import device_lib
-from werkzeug.serving import WSGIRequestHandler
-
-WSGIRequestHandler.timeout = 500
 
 app = Flask(__name__)
 
@@ -51,7 +48,7 @@ def load_data(path: str):
     return frames
 
 def decode_predictions(predictions, vocab):
-    return ''.join([vocab.get(idx, '?') for idx in predictions])  # Use '?' for unknown indices
+    return ''.join([vocab.get(idx, '') for idx in predictions])  # Use '?' for unknown indices
 
 vocab = {
     0: "",
@@ -79,9 +76,6 @@ def upload_video():
     # Get input and output details
     input_details = interpreter.get_input_details()
     output_details = interpreter.get_output_details()
-
-    # print("Input Details:", input_details)
-    # print("Output Details:", output_details)
     
     input_details = interpreter.get_input_details()
     
@@ -107,17 +101,12 @@ def upload_video():
         return jsonify({'error': 'Model inference failed'}), 500
     
     output_details = interpreter.get_output_details()
-    print("sampai - output")
-    # print(output_details)
     output_data = interpreter.get_tensor(output_details[0]['index'])
-    print("sampai - output data")
     predictions = np.argmax(output_data, axis=-1)
-    print("sampai - prediction")
     
     # Output prediction
     text_output = decode_predictions(predictions[0], vocab)
     print(text_output)
-    # text_output = "ini outputnya"
 
     return jsonify({'predicted_text': text_output}), 200
 
