@@ -4,6 +4,10 @@ import os
 import numpy as np
 import tensorflow as tf
 from typing import List
+from tensorflow.python.client import device_lib
+from werkzeug.serving import WSGIRequestHandler
+
+WSGIRequestHandler.timeout = 500
 
 app = Flask(__name__)
 
@@ -11,11 +15,20 @@ app = Flask(__name__)
 interpreter = tf.lite.Interpreter(model_path="model/my_model.tflite")
 interpreter.allocate_tensors()
 
+def print_available_devices():
+    devices = device_lib.list_local_devices()
+    for device in devices:
+        print(f"Device Name: {device.name}, Device Type: {device.device_type}")
+        
 # Functional
-def load_video(path:str) -> List[float]:
+def load_video(path:str, max_frames: int = 75) -> List[float]:
 
     cap = cv2.VideoCapture(path)
     frames = []
+    frame_count = int(cap.get(cv2.CAP_PROP_FRAME_COUNT))
+    total_frames = min(frame_count, max_frames)
+    print(f"Total frames available in the video: {frame_count}")
+    print(f"Total frames extracted for processing: {total_frames}")
     for _ in range(int(cap.get(cv2.CAP_PROP_FRAME_COUNT))):
         ret, frame = cap.read()
         frame = tf.image.rgb_to_grayscale(frame)
@@ -31,7 +44,7 @@ def load_data(path: str):
 
     # Handle file paths dynamically
     file_name = os.path.splitext(os.path.basename(path))[0]
-    vPath = os.path.join('/tmp', f'{file_name}.mp4')
+    vPath = os.path.join(f'{file_name}.mp4')
 
     frames = load_video(vPath)
 
@@ -58,32 +71,53 @@ def upload_video():
     video_file = request.files['video']
     
     # Save the video file to a temporary location
-    video_path = os.path.join('/tmp', video_file.filename)
+    video_path = os.path.join(video_file.filename)
     video_file.save(video_path)
     
     frames = load_data(tf.convert_to_tensor(video_path))
     
-    interpreter = tf.lite.Interpreter(model_path="model/my_model.tflite")
-    interpreter.allocate_tensors()
+    # Get input and output details
+    input_details = interpreter.get_input_details()
+    output_details = interpreter.get_output_details()
+
+    # print("Input Details:", input_details)
+    # print("Output Details:", output_details)
     
     input_details = interpreter.get_input_details()
     
     # Convert frame
     frames = np.array(frames, dtype=np.float32)
+    print("sampai - ngubah array")
     frames = np.reshape(frames, (75, 46, 140, 1))
+    print(f"Expected input shape: {input_details[0]['shape']}")
     input_data = np.expand_dims(frames, axis=0)
     # Set the input tensor
     interpreter.set_tensor(input_details[0]['index'], input_data)
+    print("Setting interpreter tensor..")
     
     # Run inference
-    interpreter.invoke()
+    print ("Inference will run on :")
+    print_available_devices()
+    try:
+        print("Running inferece...")
+        interpreter.invoke()
+        print("Inference completed.")
+    except Exception as e:
+        print(f"Error during inference: {str(e)}")
+        return jsonify({'error': 'Model inference failed'}), 500
     
     output_details = interpreter.get_output_details()
+    print("sampai - output")
+    # print(output_details)
     output_data = interpreter.get_tensor(output_details[0]['index'])
+    print("sampai - output data")
     predictions = np.argmax(output_data, axis=-1)
-    # unique_indices = np.unique(predictions[0])
+    print("sampai - prediction")
+    
     # Output prediction
     text_output = decode_predictions(predictions[0], vocab)
+    print(text_output)
+    # text_output = "ini outputnya"
 
     return jsonify({'predicted_text': text_output}), 200
 

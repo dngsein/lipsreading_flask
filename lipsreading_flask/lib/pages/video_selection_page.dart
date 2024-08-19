@@ -68,7 +68,7 @@ class VideoSelectionPageState extends State<VideoSelectionPage> {
       return;
     }
 
-    final Uri uri = Uri.parse('http://your-flask-server-url/upload');
+    final Uri uri = Uri.parse('http://192.168.0.104:5000/upload');
     final http.MultipartRequest request = http.MultipartRequest('POST', uri);
 
     final http.MultipartFile video = await http.MultipartFile.fromPath(
@@ -88,7 +88,6 @@ class VideoSelectionPageState extends State<VideoSelectionPage> {
         _predictionResult = responseData['predicted_text'];
       });
     } else {
-      // print('Video upload failed');
     }
   }
 
