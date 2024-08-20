@@ -42,7 +42,7 @@ This is guide to running this project.
 2. One window open flutter project and other one for open Flask API
 3. Run flutter project by selecting main.dart then click run debugging or click F5. Other way you can run at command line by entering | flutter run |
 4. Run Flask API by command line | python app.py |
-5. You'll see local IP of flask server after run it, copy the IP ex: 192.168.0.10/5000 -> replace this line code with your local Flask IP
+5. You'll see local IP of flask server after run it, copy the IP ex: 192.168.0.10/5000 then open video_selection_page.dart, search this this line of code then replace with your local Flask IP
 >> final Uri uri = Uri.parse('http://192.168.1.10:5000/upload');
 >>                                   ^^^^^^^^^^^^^^^^ change it   
 6. After all is runing already, make sure your emulator / phone is open the application
