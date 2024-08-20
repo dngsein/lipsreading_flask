@@ -12,6 +12,8 @@ Applications :
  - extension dart
 - Git
 - Chrome (for emulator if android studio to heavy or just use your android mobile phone)
+Tutorial : https://www.youtube.com/watch?v=asNdz10WR6w&list=LL&ab_channel=EricoDarmawanHandoyo
+** Follow the tutorial, but keep download the latest
 
 Then, here some dependencies need to be installed for running Flask API :
 - python
@@ -22,11 +24,15 @@ Then, here some dependencies need to be installed for running Flask API :
 - os
 
 before install them, make sure build your python virtual environment
-run this command to build venv :
+run this command to build venv (make sure run CLI terminal not PS / Power Shell) :
 python -m venv venv
 venv\Scripts\activate
 
-run this code for install dependencies :
+Reference : 
+https://packaging.python.org/en/latest/guides/installing-using-pip-and-virtual-environments/
+https://www.youtube.com/watch?v=GZbeL5AcTgw&ab_channel=Indently
+
+after venv activated, run this code for install dependencies :
 pip install -r requirements.txt
 
 -------------------------------------------------------------------------------------------------
@@ -36,10 +42,13 @@ This is guide to running this project.
 2. One window open flutter project and other one for open Flask API
 3. Run flutter project by selecting main.dart then click run debugging or click F5. Other way you can run at command line by entering | flutter run |
 4. Run Flask API by command line | python app.py |
-5. After all is runing already, make sure your emulator / phone is open the application
-6. After the application is open, select input video (use sampel video or video from datasets)
-7. There is button say procees video, click it and wait until the prediction appear
-8. If wanted to input other video, just click select video button then process the video
+5. You'll see local IP of flask server after run it, copy the IP ex: 192.168.0.10/5000 -> replace this line code with your local Flask IP
+>> final Uri uri = Uri.parse('http://192.168.1.10:5000/upload');
+>>                                   ^^^^^^^^^^^^^^^^ change it   
+6. After all is runing already, make sure your emulator / phone is open the application
+7. After the application is open, select input video (use sampel video or video from datasets)
+8. There is button say procees video, click it and wait until the prediction appear
+9. If wanted to input other video, just click select video button then process the video
 
 Thanks for reading!
 
