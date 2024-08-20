@@ -19,15 +19,13 @@ class VideoSelectionPageState extends State<VideoSelectionPage> {
   final ImagePicker _picker = ImagePicker();
   VideoPlayerController? _videoPlayerController;
 
-  // Function to select a video from the gallery
   Future<void> _pickVideo() async {
     final XFile? video = await _picker.pickVideo(source: ImageSource.gallery);
 
     if (video != null) {
       setState(() {
         _video = File(video.path);
-        _predictionResult =
-            null; // Reset prediction result when a new video is selected
+        _predictionResult = null;
         _initializeVideoPlayer();
       });
     }
@@ -38,13 +36,13 @@ class VideoSelectionPageState extends State<VideoSelectionPage> {
     if (_video != null) {
       _videoPlayerController = VideoPlayerController.file(_video!)
         ..initialize().then((_) {
-          setState(() {}); // Ensure the first frame is shown
+          setState(() {});
           _videoPlayerController!.play();
         });
     }
   }
 
-  // Function to upload the selected video to the Flask server and get the prediction result
+  // Function to upload the selected video to the Flask
   Future<void> _processVideo() async {
     if (_video == null) {
       // Show a dialog or a snackbar if no video is selected
@@ -68,7 +66,8 @@ class VideoSelectionPageState extends State<VideoSelectionPage> {
       return;
     }
 
-    final Uri uri = Uri.parse('http://192.168.0.104:5000/upload');
+// Ganti URL ke local server Flask
+    final Uri uri = Uri.parse('http://192.168.1.10:5000/upload');
     final http.MultipartRequest request = http.MultipartRequest('POST', uri);
 
     final http.MultipartFile video = await http.MultipartFile.fromPath(
@@ -87,8 +86,7 @@ class VideoSelectionPageState extends State<VideoSelectionPage> {
       setState(() {
         _predictionResult = responseData['predicted_text'];
       });
-    } else {
-    }
+    } else {}
   }
 
   @override
@@ -124,8 +122,22 @@ class VideoSelectionPageState extends State<VideoSelectionPage> {
             ),
             const SizedBox(height: 20),
             _predictionResult != null
-                ? Text('Prediction: $_predictionResult')
-                : const Text('No prediction yet'),
+                ? Text(
+                    'Prediction: $_predictionResult',
+                    style: const TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.green),
+                    textAlign: TextAlign.center,
+                  )
+                : const Text(
+                    'No prediction yet',
+                    style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w300,
+                        color: Colors.black),
+                    textAlign: TextAlign.center,
+                  )
           ],
         ),
       ),
