@@ -7,14 +7,12 @@ Integrasi LipNet, model untuk deteksi gerakan bibir untuk aplikasi android
 
 ### Built With
 
-This section should list any major frameworks/libraries used to bootstrap your project. Leave any add-ons/plugins for the acknowledgements section. Here are a few examples.
+This section lists some of the major frameworks/libraries used in the project:
 
-* [![Flutter][Flutter]][Vue-url]
-* [![Angular][Angular.io]][Angular-url]
-* [![Svelte][Svelte.dev]][Svelte-url]
-* [![Laravel][Laravel.com]][Laravel-url]
-* [![Bootstrap][Bootstrap.com]][Bootstrap-url]
-* [![JQuery][JQuery.com]][JQuery-url]
+- ![Flask](https://upload.wikimedia.org/wikipedia/commons/3/3c/Flask_logo.svg)
+- ![TensorFlow](https://upload.wikimedia.org/wikipedia/commons/2/2d/Tensorflow_logo.svg)
+- ![Flutter](https://upload.wikimedia.org/wikipedia/commons/1/17/Google-flutter-logo.png)
+
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
