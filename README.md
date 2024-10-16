@@ -9,9 +9,10 @@ Integrasi LipNet, model untuk deteksi gerakan bibir untuk aplikasi android
 
 This section lists some of the major frameworks/libraries used in the project:
 
-- ![Flask](https://upload.wikimedia.org/wikipedia/commons/3/3c/Flask_logo.svg)
-- ![TensorFlow](https://upload.wikimedia.org/wikipedia/commons/2/2d/Tensorflow_logo.svg)
-- ![Flutter](https://upload.wikimedia.org/wikipedia/commons/1/17/Google-flutter-logo.png)
+- ![Flask](https://img.shields.io/badge/Flask-000000?logo=flask&logoColor=white)
+- ![TensorFlow](https://img.shields.io/badge/TensorFlow-FF6F00?logo=tensorflow&logoColor=white)
+- ![Flutter](https://img.shields.io/badge/Flutter-02569B?logo=flutter&logoColor=white)
+
 
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
